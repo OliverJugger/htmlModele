@@ -1,6 +1,8 @@
 package htmlModele;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Fragment {
 
@@ -14,6 +16,20 @@ public class Fragment {
 		nom = fichier.getName();
 		index = calculeIndex(fichier);
 
+	}
+
+	private static String getExtension(final File fichier) {
+		String fileName = fichier.getAbsolutePath();
+		String extension = "";
+
+		int i = fileName.lastIndexOf('.');
+		int p = Math.max(fileName.lastIndexOf('/'), fileName.lastIndexOf('\\'));
+
+		if (i > p) {
+			extension = fileName.substring(i + 1);
+		}
+
+		return extension;
 	}
 
 	public static int calculeIndex(final File fichier) {
@@ -45,18 +61,30 @@ public class Fragment {
 
 	}
 
-	private static String getExtension(final File fichier) {
-		String fileName = fichier.getAbsolutePath();
-		String extension = "";
+	public static List < Fragment > listFragments(final String chemin) {
 
-		int i = fileName.lastIndexOf('.');
-		int p = Math.max(fileName.lastIndexOf('/'), fileName.lastIndexOf('\\'));
+		List < Fragment > fragments = new ArrayList <>();
 
-		if (i > p) {
-			extension = fileName.substring(i + 1);
+		File repertoire = new File(chemin);
+		File[] liste = repertoire.listFiles();
+
+		if (liste != null) {
+			for (int i = 0; i < liste.length; i++) {
+				File fichier = liste[i];
+
+				if (calculeIndex(fichier) > 0) {
+					fragments.add(new Fragment(fichier));
+				} else {
+					System.out.println(fichier.getAbsolutePath() + " PAS PRIS EN COMPTE");
+				}
+
+			}
+		} else {
+			System.err.println("Repertoire invalide");
 		}
 
-		return extension;
+		return fragments;
+
 	}
 
 }
