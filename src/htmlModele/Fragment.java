@@ -63,7 +63,7 @@ public class Fragment {
 
 	public static List < Fragment > listFragments(final String chemin) {
 
-		List < Fragment > fragments = new ArrayList <>();
+		List < Fragment > fragments = new ArrayList < Fragment >();
 
 		File repertoire = new File(chemin);
 		File[] liste = repertoire.listFiles();
