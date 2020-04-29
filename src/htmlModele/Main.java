@@ -14,9 +14,17 @@ public class Main {
 		List < Fragment > visas = Fragment.listFragments(
 			"D:\\projet-administration-des-documents\\Livraison_Fragments\\formulairesLiveCycle\\Fragment\\VisaComplementaire");
 
-		String cheminPDF = "D:\\test.pdf";
+		//generation des JDD en XML dans le dossier "JeuxDeDonnees"
+		GenerateurXML gen = new GenerateurXML();
+		gen.genererLesXML(articles);
+		
+		int nombreDeJDD = gen.getNombreJDD();
+		
+		for(int i=1 ; i<nombreDeJDD ; i++) {
+		
+		String cheminPDF = "D:\\test" + i + ".pdf";
 
-		Arrete.demandeArrete("D:\\test.xml", cheminPDF);
+		Arrete.demandeArrete("JeuxDeDonnees\\"+"JDD_" + i +"\\JDD_" + i + ".xml", cheminPDF);
 
 		String texteArrete = Arrete.transformeEnTexte(cheminPDF);
 
@@ -32,15 +40,17 @@ public class Main {
 
 		// pour découper les lignes
 		String lines[] = texteArticles.split("\r?\n");
-		for (int i = 0; i < lines.length; ++i) {
-			System.out.println(i + " [ " + lines[i] + " ]");
+		for (int j = 0; j < lines.length; ++j) {
+			System.out.println(j + " [ " + lines[j] + " ]");
 		}
 
 		// Sauvegarde sur disque
-		Arrete.enregistreOctets(texteArrete.getBytes(), "D:\\test.txt");
+		Arrete.enregistreOctets(texteArrete.getBytes(), "D:\\test" + i +".txt");
 
 		System.out.println("texteVisas:" + texteVisas);
 		System.out.println("texteArticles:" + texteArticles);
+		
+		}
 
 	}
 
