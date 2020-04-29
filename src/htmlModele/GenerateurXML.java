@@ -1,43 +1,39 @@
 package htmlModele;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.w3c.dom.*;
-import org.xml.sax.SAXException;
-
-import java.io.File;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import org.w3c.dom.Attr;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 public class GenerateurXML {
 	
 	private final String dossierParent = "JeuxDeDonnees";
 	private final String fichierXMLModele = "modeleDonnees.xml";
 	
+	public List<List<Fragment>> listeDocXML;
+	
 	public int cpt = 1;
 
-	public void genererLesXML(List<Fragment> listeFragments) throws Exception {
+	public void genererLesXML(List<Fragment> listeArticles, String type) throws Exception {
 		
-		List<List<Fragment>> listeDocXML = genererListeDocumentsXML(listeFragments);
+		listeDocXML = genererListeDocumentsXML(listeArticles);
 		
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();	
 		
-		
-		File file = new File("JeuxDeDonnees");
+		File file = new File("JeuxDeDonnees_" +type);
 	      //Creating the directory
 	    file.mkdir();
 	    
@@ -58,6 +54,8 @@ public class GenerateurXML {
 		    file2.mkdir();
 		    
 		    for(int j = 0 ; j <400 ; j ++) {
+		    	if(type=="articles") {
+		    		
 		    	Element articleModif = document.createElement("ArticleModif");
 		    	Element txtArticle = document.createElement("TxtArticle");
 		    	
@@ -66,20 +64,51 @@ public class GenerateurXML {
 		    	articleModif.appendChild(document.createTextNode(""));
 		    	
 		    	root.getElementsByTagName("ArticlesModifs").item(0).appendChild(articleModif);
+		    	
+		    	}
+		    	if(type=="visas") {
+		    	
+		    	Element visaModif = document.createElement("VisaComplModif");
+		    	Element txtVisa = document.createElement("TxtVisaCompl");
+		    	
+		    	visaModif.appendChild(document.createTextNode(""));
+		    	visaModif.appendChild(txtVisa);
+		    	visaModif.appendChild(document.createTextNode(""));
+		    	
+		    	root.getElementsByTagName("VisasComplModifs").item(0).appendChild(visaModif);
+		    	}
 		    }
 		    
 		    for (Fragment fragment : docXml) {
 		    	
-		    	root.getElementsByTagName("FragmentsArticle").item(0).appendChild(document.createElement("FragmentArticle")); 
-		        root.getElementsByTagName("FragmentArticle").item(0).appendChild(document.createTextNode(fragment.nom));        
-		 
-		        NodeList nl = root.getElementsByTagName("ArticleModif");
-		        
-		        Node articleDuFragment = root.getElementsByTagName("ArticleModif").item(fragment.index);
+		    	Node texteDuFragment = null;
+		    	
+		    	if(type=="articles") {
 
+		    	Element fragmentArticle = document.createElement("FragmentArticle");
+		    	fragmentArticle.setAttribute("modifiable", "false");
+		    	Node txtFragmentArticle = document.createTextNode(fragment.nom);
+		    	fragmentArticle.appendChild(txtFragmentArticle);
+		    	root.getElementsByTagName("FragmentsArticle").item(0).appendChild(fragmentArticle);
+		    	
+
+		    	texteDuFragment = root.getElementsByTagName("ArticleModif").item(fragment.index);		    	
+		    	}
+		    	
+		    	if(type=="visas") {
+		    		
+		        Element fragmentVisa = document.createElement("FragmentVisaComplementaire");
+		        fragmentVisa.setAttribute("modifiable", "false");
+		    	Node txtFragmentVisa = document.createTextNode(fragment.nom);
+		    	fragmentVisa.appendChild(txtFragmentVisa);
+		    	root.getElementsByTagName("FragmentsVisasComplementaires").item(0).appendChild(fragmentVisa); 
+		    	
+		    	texteDuFragment = root.getElementsByTagName("VisaComplModif").item(fragment.index);
+		    	}
+		        
 		        try {
 
-		        articleDuFragment.getChildNodes().item(1).appendChild(document.createTextNode("Ceci est le fragment : " + fragment.nom));
+		        	texteDuFragment.getChildNodes().item(1).appendChild(document.createTextNode("Ceci est le fragment : " + fragment.nom));
 		        
 		        } catch (NullPointerException npe) {
 		        	throw new Exception("Problème fragment : " + fragment.nom + " index : " + fragment.index);
@@ -100,8 +129,6 @@ public class GenerateurXML {
 	}
 	
 	public List<List<Fragment>> genererListeDocumentsXML (List<Fragment> articles) {
-		Collections.sort(articles);
-		
 		
 		//Pour chaque xml on aura une liste de fragments, et on veut une liste de xml
 		List<List<Fragment>> documentsXml = new ArrayList<List<Fragment>>();
