@@ -1,0 +1,2 @@
+Ceci est le fragment : VISA_MEN_InscriptionEchelonSpecial_C001
+Ceci est le fragment : VISA_MEN_VuCAPN_3

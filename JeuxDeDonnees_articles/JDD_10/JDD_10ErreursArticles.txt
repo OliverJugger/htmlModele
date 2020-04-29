@@ -1,0 +1,2 @@
+Ceci est le fragment : ART_MEN_MaintienIndice_C003 ≠ Ceci est le fragment : ART_MEN_Collectif_LA_execution_masculin_002
+Ceci est le fragment : ART_MEN_Nomination_REC-REF-M01_autres_C005 ≠ Ceci est le fragment : ART_MEN_MaintienIndice_C003

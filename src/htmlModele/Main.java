@@ -1,5 +1,6 @@
 package htmlModele;
 
+import java.io.IOException;
 import java.util.List;
 
 public class Main {
@@ -14,42 +15,128 @@ public class Main {
 		List < Fragment > visas = Fragment.listFragments(
 			"D:\\projet-administration-des-documents\\Livraison_Fragments\\formulairesLiveCycle\\Fragment\\VisaComplementaire");
 
-		//generation des JDD en XML dans le dossier "JeuxDeDonnees"
-		GenerateurXML gen = new GenerateurXML();
-		gen.genererLesXML(articles);
-		
-		int nombreDeJDD = gen.getNombreJDD();
-		
-		for(int i=1 ; i<nombreDeJDD ; i++) {
-		
-		String cheminPDF = "D:\\test" + i + ".pdf";
+		// litDonnees("D:\\test.xml", "D:\\test.pdf", "D:\\test.txt");
 
-		Arrete.demandeArrete("JeuxDeDonnees\\"+"JDD_" + i +"\\JDD_" + i + ".xml", cheminPDF);
+		System.out.println("Demande génération PDF pour les articles !");
+
+		// generation des JDD en XML dans le dossier "JeuxDeDonnees"
+		GenerateurXML gen = new GenerateurXML();
+		gen.genererLesXML(articles, "articles");
+
+		int nombreDeJDD = gen.getNombreJDD();
+
+		for (int i = 1; i < nombreDeJDD; i++) {
+
+			System.out.println("Analyse PDF " + i + " commencé !");
+			List < Fragment > listeFragments = gen.listeDocXML.get(i - 1);
+			String chemin = "D:\\git\\htmlModele\\JeuxDeDonnees_articles\\JDD_" + i + "\\";
+			litDonnees(chemin, listeFragments, i);
+			System.out.println("Analyse PDF " + i + " finito !");
+
+		}
+
+		System.out.println("Articles finis !");
+		System.out.println("Demande génération PDF pour les visas !");
+
+		// generation des JDD en XML dans le dossier "JeuxDeDonnees"
+		GenerateurXML genVisas = new GenerateurXML();
+		genVisas.genererLesXML(visas, "visas");
+
+		int nombreDeJDDvisas = genVisas.getNombreJDD();
+
+		for (int i = 1; i < nombreDeJDDvisas; i++) {
+
+			System.out.println("Analyse PDF " + i + " commencé !");
+			List < Fragment > listeFragments = genVisas.listeDocXML.get(i - 1);
+			String chemin = "D:\\git\\htmlModele\\JeuxDeDonnees_visas\\JDD_" + i + "\\";
+			litDonnees(chemin, listeFragments, i);
+			System.out.println("Analyse PDF " + i + " finito !");
+
+		}
+
+		System.out.println("Visas finis !");
+		System.out.println("Finito !");
+
+	}
+
+	public static void litDonnees(final String chemin, final List < Fragment > listeFragments, final int i) throws IOException {
+
+		String cheminPDF = chemin + "test" + i + ".pdf";
+		String cheminXML = chemin + "JDD_" + i + ".xml";
+		String cheminTXT = chemin + "JDD_" + i + ".txt";
+		String cheminArticles = chemin + "JDD_" + i + "Articles.txt";
+		String cheminVisas = chemin + "JDD_" + i + "Visas.txt";
+		String cheminErreurs = chemin + "JDD_" + i + "ErreursArticles.txt";
+		String cheminErreursvisas = chemin + "JDD_" + i + "ErreursVisas.txt";
+		String cheminFragments = chemin + "JDD_" + i + "Fragments.txt";
+
+		String frg = "";
+		for (Fragment frgm : listeFragments) {
+			frg += frgm.nom + "\r\n";
+		}
+
+		Arrete.enregistreOctets(frg.getBytes(), cheminFragments);
+
+		Arrete.demandeArrete(cheminXML, cheminPDF);
 
 		String texteArrete = Arrete.transformeEnTexte(cheminPDF);
 
-		// Récupération des textes de tous les visas + tous les arrêtés
-		String debutVisas = "le recteur de l'académie d'Aix-Marseille\r\n";
-		String entreVisaEtArticle = "ARRETE\r\n";
-		String finArticles = "\r\n20 décembre 1962";
-
-		texteArrete = texteArrete.split(debutVisas, 2)[1];
-		String texteVisas = texteArrete.split(entreVisaEtArticle, 2)[0];
-		String texteArticles = texteArrete.split(entreVisaEtArticle, 2)[1];
-		texteArticles = texteArticles.split(finArticles, 2)[0];
-
-		// pour découper les lignes
-		String lines[] = texteArticles.split("\r?\n");
-		for (int j = 0; j < lines.length; ++j) {
-			System.out.println(j + " [ " + lines[j] + " ]");
-		}
-
 		// Sauvegarde sur disque
-		Arrete.enregistreOctets(texteArrete.getBytes(), "D:\\test" + i +".txt");
+		Arrete.enregistreOctets(texteArrete.getBytes(), cheminTXT);
 
-		System.out.println("texteVisas:" + texteVisas);
-		System.out.println("texteArticles:" + texteArticles);
-		
+		// Récupération des textes de tous les visas + tous les arrêtés
+		String debutVisas = "LE RECTEUR DE L'ACADEMIE DE TOULOUSE\r\n";
+		String entreVisaEtArticle = "ARRETE\r\n";
+		if (chemin.contains("JeuxDeDonnees_articles")) {
+			entreVisaEtArticle = "ARRETE\r\n \r\n";
+		}
+		String finArticles = "\r\n18 mars 2020";
+
+		if (!texteArrete.isEmpty() && texteArrete.indexOf(debutVisas) >= 0) {
+			texteArrete = texteArrete.split(debutVisas, 2)[1];
+
+			if (texteArrete.indexOf(entreVisaEtArticle) >= 0) {
+				String texteVisas = texteArrete.split(entreVisaEtArticle, 2)[0];
+
+				String errorsvisas = "";
+
+				// pour analyser les visas
+				if (!texteVisas.isEmpty()) {
+					String linesvisas[] = texteVisas.split("\r\n");
+					for (int j = 0; j < linesvisas.length; ++j) {
+						if (!("Ceci est le fragment : " + listeFragments.get(j).nom).equals(linesvisas[j])) {
+							errorsvisas += linesvisas[j] + " ≠ " + "Ceci est le fragment : " + listeFragments.get(j).nom + "\r\n";
+						}
+					}
+
+					Arrete.enregistreOctets(texteVisas.getBytes(), cheminVisas);
+					Arrete.enregistreOctets(errorsvisas.getBytes(), cheminErreursvisas);
+				}
+
+				String texteArticles = texteArrete.split(entreVisaEtArticle, 2)[1];
+				if (texteArticles.indexOf(finArticles) >= 0) {
+
+					texteArticles = texteArticles.split(finArticles, 2)[0];
+
+					String errors = "";
+
+					// pour analyser les articles
+					if (!texteArticles.isEmpty()) {
+						String lines[] = texteArticles.split("\r\n");
+						for (int j = 0; j < lines.length; ++j) {
+							if (!("Ceci est le fragment : " + listeFragments.get(j).nom).equals(lines[j])) {
+								errors += lines[j] + " ≠ " + "Ceci est le fragment : " + listeFragments.get(j).nom + "\r\n";
+							}
+						}
+
+						Arrete.enregistreOctets(texteArticles.getBytes(), cheminArticles);
+						Arrete.enregistreOctets(errors.getBytes(), cheminErreurs);
+					}
+
+				}
+
+			}
+
 		}
 
 	}

@@ -1,0 +1,10 @@
+Ceci est le fragment : ART_CNT_AvenantEngagementCDI_001
+Ceci est le fragment : ART_CNT_AvenantNominationCDI_002
+Ceci est le fragment : ART_CNT_CodeTravail_003
+Ceci est le fragment : ART_MEN_Affectation_C004
+Ceci est le fragment : ART_CNT_PasPeriodeEssai_005
+Ceci est le fragment : ART_MEN_ClassementUlterieurAcademique_006
+Ceci est le fragment : ART_CNT_Quotite_007
+Ceci est le fragment : ART_MEN_RetraitArrete_008
+Ceci est le fragment : ART_MEN_ChangementEchelonChevron_C029_v2
+Ceci est le fragment : ART_MEN_DetachementEntrant_C083

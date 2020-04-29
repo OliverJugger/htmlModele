@@ -13,7 +13,7 @@ public class Fragment {
 	public Fragment(final File fichier) {
 
 		chemin = fichier.getAbsolutePath();
-		nom = fichier.getName();
+		nom = fichier.getName().replace("." + getExtension(fichier), "");
 		index = calculeIndex(fichier);
 
 	}

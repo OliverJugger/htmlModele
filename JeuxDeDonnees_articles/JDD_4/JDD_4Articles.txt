@@ -1,0 +1,7 @@
+Ceci est le fragment : ART_CNT_EngagementCDIModificatif_001
+Ceci est le fragment : ART_CNT_NominationCDIModificatif_002
+Ceci est le fragment : ART_CNT_Remuneration_003
+Ceci est le fragment : ART_MEN_Affectation_REC-REF-M01_PDIR_C004
+Ceci est le fragment : ART_MEN_NominationTA_C005
+Ceci est le fragment : ART_MEN_Classement_REC-REF-M01_PDIR_006
+Ceci est le fragment : ART_MEN_Titularisation_C007

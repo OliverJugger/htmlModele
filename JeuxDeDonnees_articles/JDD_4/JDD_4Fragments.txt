@@ -1,0 +1,7 @@
+ART_CNT_EngagementCDIModificatif_001
+ART_CNT_NominationCDIModificatif_002
+ART_CNT_Remuneration_003
+ART_MEN_Affectation_REC-REF-M01_PDIR_C004
+ART_MEN_NominationTA_C005
+ART_MEN_Classement_REC-REF-M01_PDIR_006
+ART_MEN_Titularisation_C007

@@ -20,14 +20,11 @@ public class Arrete {
 
 	static void demandeArrete(final String cheminXML, final String cheminPDF) throws IOException {
 		OkHttpClient client = new OkHttpClient().newBuilder().build();
-
 		MediaType mediaType = MediaType.parse("text/plain");
-
 		RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
 			.addFormDataPart("pdfXmlArrete", cheminXML,
 				RequestBody.create(MediaType.parse("application/octet-stream"), new File(cheminXML)))
 			.addFormDataPart("racineFragmentsPath", "file:///mnt/NFSLOG/xl2-sir").build();
-
 		Request request = new Request.Builder()
 			.url(
 				"http://xl2-sir-edit01.sirhen.prj.in.phm.education.gouv.fr:8080/rest/services/SIRHEN_Gestion_Arretes/Processus/validerArrete:1.0")

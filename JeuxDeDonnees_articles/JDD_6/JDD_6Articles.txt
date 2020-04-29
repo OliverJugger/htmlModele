@@ -1,0 +1,5 @@
+Ceci est le fragment : ART_CNT_NouveauEngagementCDIModificatif_001
+Ceci est le fragment : ART_CNT_QuotiteRemuneration_002
+Ceci est le fragment : ART_MEN_CongeCLMCLD_003
+Ceci est le fragment : ART_MEN_ArticleExecution_RH_Recteurs_004
+Ceci est le fragment : ART_MEN_Nomination_C005
