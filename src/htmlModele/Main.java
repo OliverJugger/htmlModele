@@ -2,6 +2,7 @@ package htmlModele;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -12,8 +13,26 @@ public class Main {
 		List < Fragment > articles = Fragment.listFragments(
 			"D:\\projet-administration-des-documents\\Livraison_Fragments\\formulairesLiveCycle\\Fragment\\Article");
 
+		articles = articles.stream().sorted((objet1, objet2) -> objet1.index - objet2.index).collect(Collectors.toList());
+
+		String frg = "";
+		for (Fragment frgm : articles) {
+			frg += frgm.nom + "\r\n";
+		}
+
+		Arrete.enregistreOctets(frg.getBytes(), "D:\\articles.txt");
+
 		List < Fragment > visas = Fragment.listFragments(
 			"D:\\projet-administration-des-documents\\Livraison_Fragments\\formulairesLiveCycle\\Fragment\\VisaComplementaire");
+
+		visas = visas.stream().sorted((objet1, objet2) -> objet1.index - objet2.index).collect(Collectors.toList());
+
+		frg = "";
+		for (Fragment frgm : visas) {
+			frg += frgm.nom + "\r\n";
+		}
+
+		Arrete.enregistreOctets(frg.getBytes(), "D:\\visas.txt");
 
 		// litDonnees("D:\\test.xml", "D:\\test.pdf", "D:\\test.txt");
 
@@ -87,9 +106,9 @@ public class Main {
 		// Récupération des textes de tous les visas + tous les arrêtés
 		String debutVisas = "LE RECTEUR DE L'ACADEMIE DE TOULOUSE\r\n";
 		String entreVisaEtArticle = "ARRETE\r\n";
-		if (chemin.contains("JeuxDeDonnees_articles")) {
-			entreVisaEtArticle = "ARRETE\r\n \r\n";
-		}
+		// if (chemin.contains("JeuxDeDonnees_articles")) {
+		// entreVisaEtArticle = "ARRETE\r\n \r\n";
+		// }
 		String finArticles = "\r\n18 mars 2020";
 
 		if (!texteArrete.isEmpty() && texteArrete.indexOf(debutVisas) >= 0) {
@@ -103,7 +122,7 @@ public class Main {
 				// pour analyser les visas
 				if (!texteVisas.isEmpty()) {
 					String linesvisas[] = texteVisas.split("\r\n");
-					for (int j = 0; j < linesvisas.length; ++j) {
+					for (int j = 0; j < Math.min(linesvisas.length, listeFragments.size()); ++j) {
 						if (!("Ceci est le fragment : " + listeFragments.get(j).nom).equals(linesvisas[j])) {
 							errorsvisas += linesvisas[j] + " ≠ " + "Ceci est le fragment : " + listeFragments.get(j).nom + "\r\n";
 						}
@@ -123,7 +142,7 @@ public class Main {
 					// pour analyser les articles
 					if (!texteArticles.isEmpty()) {
 						String lines[] = texteArticles.split("\r\n");
-						for (int j = 0; j < lines.length; ++j) {
+						for (int j = 0; j < Math.min(lines.length, listeFragments.size()); ++j) {
 							if (!("Ceci est le fragment : " + listeFragments.get(j).nom).equals(lines[j])) {
 								errors += lines[j] + " ≠ " + "Ceci est le fragment : " + listeFragments.get(j).nom + "\r\n";
 							}

@@ -1,4 +1,0 @@
-ART_MEN_Identite_Affectation_C001
-ART_MEN_Collectif_LA_execution_masculin_002
-ART_MEN_MaintienIndice_C003
-ART_MEN_Nomination_REC-REF-M01_autres_C005

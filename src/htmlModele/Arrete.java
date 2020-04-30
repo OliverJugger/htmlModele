@@ -50,6 +50,16 @@ public class Arrete {
 
 		String pdf = pdfReader.readStringContentFromFile(file);
 
+		pdf = pdf.replace("\r\n \r\n", "\r\n");
+		pdf = pdf.replace("1 / 3\r\n", "");
+		pdf = pdf.replace("2 / 3\r\n", "");
+		pdf = pdf.replace("3 / 3\r\n", "");
+		pdf = pdf.replace("1 / 1\r\n", "");
+
+		// while (pdf.contains("\r\n\r\n")) {
+		// pdf = pdf.replace("\r\n\r\n", "\r\n");
+		// }
+
 		return pdf;
 
 	}

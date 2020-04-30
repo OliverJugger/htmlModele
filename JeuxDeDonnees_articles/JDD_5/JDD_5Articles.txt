@@ -1,6 +1,0 @@
-Ceci est le fragment : ART_CNT_EngagementMaitreDelegue_001
-Ceci est le fragment : ART_CNT_PeriodeEssai_002
-Ceci est le fragment : ART_MEN_ArreteUlterieurServices_003
-Ceci est le fragment : ART_MEN_Affectation_REC-REF-M01_PINS_C004
-Ceci est le fragment : ART_MEN_Nomination_Affectation_005
-Ceci est le fragment : ART_MEN_FinDeStage_C006

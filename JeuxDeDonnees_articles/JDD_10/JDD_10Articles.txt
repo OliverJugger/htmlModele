@@ -1,3 +1,0 @@
-Ceci est le fragment : ART_MEN_Identite_Affectation_C001
-Ceci est le fragment : ART_MEN_MaintienIndice_C003
-Ceci est le fragment : ART_MEN_Nomination_REC-REF-M01_autres_C005

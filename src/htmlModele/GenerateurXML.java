@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -184,6 +185,9 @@ public class GenerateurXML {
 		for (int i = 1; i <= MAX; i++) {
 			List < Fragment > docXML = new ArrayList < Fragment >();
 			docXML = getValues(mapIndexListeArticles, i);
+
+			docXML = docXML.stream().sorted((objet1, objet2) -> objet1.index - objet2.index).collect(Collectors.toList());
+
 			listeDocXML.add(docXML);
 		}
 

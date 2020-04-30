@@ -1,4 +1,0 @@
-ART_MEN_Identite_C001
-ART_MEN_Execution_C002
-ART_MEN_ReductionMajoration_C003
-ART_MEN_Nomination_REC-REF-M01_PDIR_C005
