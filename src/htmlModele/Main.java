@@ -5,13 +5,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Main {
+	
+	public static final String cheminProjetHtmlModele = "C:\\Users\\omignot\\git\\htmlModele";
+	public static final String cheminProjetAdministrationDesDocuments = "D:\\sirhen_v3\\repo\\ws\\projet-administration-des-documents";
 
 	public static void main(final String[] args) throws Exception {
 
 		System.out.println("Hey Roro !");
 
 		List < Fragment > articles = Fragment.listFragments(
-			"D:\\projet-administration-des-documents\\Livraison_Fragments\\formulairesLiveCycle\\Fragment\\Article");
+			cheminProjetAdministrationDesDocuments + "\\Livraison_Fragments\\formulairesLiveCycle\\Fragment\\Article");
 
 		articles = articles.stream().sorted((objet1, objet2) -> objet1.index - objet2.index).collect(Collectors.toList());
 
@@ -23,7 +26,7 @@ public class Main {
 		Arrete.enregistreOctets(frg.getBytes(), "D:\\articles.txt");
 
 		List < Fragment > visas = Fragment.listFragments(
-			"D:\\projet-administration-des-documents\\Livraison_Fragments\\formulairesLiveCycle\\Fragment\\VisaComplementaire");
+				cheminProjetAdministrationDesDocuments +  "\\Livraison_Fragments\\formulairesLiveCycle\\Fragment\\VisaComplementaire");
 
 		visas = visas.stream().sorted((objet1, objet2) -> objet1.index - objet2.index).collect(Collectors.toList());
 
@@ -48,7 +51,7 @@ public class Main {
 
 			System.out.println("Analyse PDF " + i + " commencé !");
 			List < Fragment > listeFragments = gen.listeDocXML.get(i - 1);
-			String chemin = "D:\\git\\htmlModele\\JeuxDeDonnees_articles\\JDD_" + i + "\\";
+			String chemin = cheminProjetHtmlModele + "\\JeuxDeDonnees_articles\\JDD_" + i + "\\";
 			litDonnees(chemin, listeFragments, i);
 			System.out.println("Analyse PDF " + i + " finito !");
 
@@ -67,7 +70,7 @@ public class Main {
 
 			System.out.println("Analyse PDF " + i + " commencé !");
 			List < Fragment > listeFragments = genVisas.listeDocXML.get(i - 1);
-			String chemin = "D:\\git\\htmlModele\\JeuxDeDonnees_visas\\JDD_" + i + "\\";
+			String chemin = cheminProjetHtmlModele + "\\JeuxDeDonnees_visas\\JDD_" + i + "\\";
 			litDonnees(chemin, listeFragments, i);
 			System.out.println("Analyse PDF " + i + " finito !");
 
